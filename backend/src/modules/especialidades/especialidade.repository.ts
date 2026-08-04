@@ -16,6 +16,14 @@ class EspecialidadeRepository {
             where: { slug }
         })
     }
+
+    async criar(data:{
+        nome: string;
+        slug: string;
+        ativo: boolean;
+    }) {
+        return Especialidade.create(data);
+    }
 }
 
 export default new EspecialidadeRepository();

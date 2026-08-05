@@ -1,3 +1,4 @@
+import { CriarEspecialidadeRepositoryDTO } from '../../types/especialidade.types';
 import Especialidade from './especialidade.model';
 
 class EspecialidadeRepository {
@@ -17,11 +18,7 @@ class EspecialidadeRepository {
         })
     }
 
-    async criar(data:{
-        nome: string;
-        slug: string;
-        ativo: boolean;
-    }) {
+    async criar(data: CriarEspecialidadeRepositoryDTO) {
         return Especialidade.create(data);
     }
 }

@@ -1,16 +1,26 @@
 import {
+    CreationOptional,
     DataTypes,
     InferAttributes,
     InferCreationAttributes,
-    CreationOptional,
     Model,
 } from 'sequelize';
 
 import sequelize from '../../config/database';
 
 class Especialidade extends Model<
-    InferAttributes<Especialidade>,
-    InferCreationAttributes<Especialidade>
+    InferAttributes<
+        Especialidade,
+        {
+            omit: 'createdAt' | 'updatedAt';
+        }
+    >,
+    InferCreationAttributes<
+        Especialidade,
+        {
+            omit: 'createdAt' | 'updatedAt';
+        }
+    >
 > {
     declare id: CreationOptional<number>;
 
@@ -46,26 +56,16 @@ Especialidade.init(
 
         ativo: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
             defaultValue: true,
-            allowNull: false,
-        },
-
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
-        },
-
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: DataTypes.NOW,
         },
     },
     {
         sequelize,
         tableName: 'especialidades',
-        timestamps: false,
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
     }
 );
 

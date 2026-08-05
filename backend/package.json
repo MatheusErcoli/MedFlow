@@ -6,7 +6,6 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-
     "migrate": "tsx src/database/runMigrations.ts"
   },
   "keywords": [],
@@ -23,6 +22,7 @@
     "morgan": "^1.11.0",
     "mysql2": "^3.23.2",
     "sequelize": "^6.37.8",
+    "slugify": "^1.6.9",
     "umzug": "^3.8.3",
     "zod": "^4.4.3"
   },

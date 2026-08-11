@@ -23,10 +23,10 @@ class Usuario extends Model<
     declare nome: string;
     declare email: string;
     declare senha: string;
-    declare telefone: string;
-    declare cpf: string;
-    declare registro_profissional: string;
-    declare foto: string;
+    declare telefone: string | null;
+    declare cpf: string | null;
+    declare registro_profissional: string | null;
+    declare foto: string | null;
 
     declare status: CreationOptional<string>;
 

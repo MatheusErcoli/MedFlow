@@ -4,12 +4,19 @@ import Usuario from './usuario.model';
 class UsuarioRepository {
     async listar() {
         return Usuario.findAll({
+            attributes: {
+                exclude: ['senha'],
+            },
             order: [['nome', 'ASC']]
         })
     }
 
     async buscarPorId(id: number) {
-        return Usuario.findByPk(id);
+        return Usuario.findByPk(id, {
+            attributes: {
+                exclude: ['senha'],
+            },
+        });
     }
 
     async buscarPorEmail(email: string) {

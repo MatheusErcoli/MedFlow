@@ -2,9 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 import { ZodSchema } from 'zod';
 
 export function validate(schema: ZodSchema) {
-    return (req: Request, res: Response, next: NextFunction) => {
-        schema.parse(req.body);
+    return (req: Request, _res: Response, next: NextFunction) => {
+        const data = req.method === 'GET'
+            ? req.query
+            : req.body;
+
+        schema.parse(data);
 
         next();
-    }
+    };
 }

@@ -126,7 +126,7 @@ export const listarUsuarioSchema = z.object({
         .int()
         .positive()
         .max(100)
-        .default(20),
+        .default(10),
 });
 
 export type ListarUsuarioDTO = z.infer<

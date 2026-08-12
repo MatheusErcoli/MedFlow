@@ -1,11 +1,17 @@
 import { Request, Response } from 'express';
 
 import usuarioService from './usuario.service';
-import { CriarUsuarioDTO } from './usuario.schema';
+import { CriarUsuarioDTO, AtualizarUsuarioDTO, } from './usuario.schema';
 
 class UsuarioController {
-    async listar(_req: Request, res: Response) {
-        const usuarios = await usuarioService.listar();
+    async listar(req: Request, res: Response) {
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 20;
+
+        const usuarios = await usuarioService.listar({
+            page,
+            limit,
+        });
 
         return res.json(usuarios);
     }
@@ -24,6 +30,27 @@ class UsuarioController {
         const usuario = await usuarioService.criar(data);
 
         return res.status(201).json(usuario);
+    }
+
+    async atualizar(req: Request, res: Response) {
+        const id = Number(req.params.id);
+
+        const data: AtualizarUsuarioDTO = req.body;
+
+        const usuario = await usuarioService.atualizar(
+            id,
+            data
+        );
+
+        return res.json(usuario);
+    }
+
+    async deletar(req: Request, res: Response) {
+        const id = Number(req.params.id);
+
+        await usuarioService.deletar(id);
+
+        return res.status(204).send();
     }
 }
 

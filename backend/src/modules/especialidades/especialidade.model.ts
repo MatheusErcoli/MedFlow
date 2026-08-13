@@ -6,6 +6,7 @@ import {
     Model,
 } from 'sequelize';
 
+import Usuario from '../usuarios/usuario.model';
 import sequelize from '../../config/database';
 
 class Especialidade extends Model<
@@ -68,5 +69,10 @@ Especialidade.init(
         updatedAt: 'updated_at',
     }
 );
+
+Especialidade.hasMany(Usuario, {
+    foreignKey: 'especialidade_id',
+    as: 'usuarios',
+});
 
 export default Especialidade;

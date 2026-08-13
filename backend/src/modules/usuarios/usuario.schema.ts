@@ -34,11 +34,17 @@ export const criarUsuarioSchema = z.object({
     telefone: z
         .string()
         .trim()
+        .min(10, 'Informe um telefone válido.')
+        .max(15, 'Informe um telefone válido.')
         .optional(),
 
     cpf: z
         .string()
         .trim()
+        .regex(
+            /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/,
+            'Informe um CPF válido.'
+        )
         .optional(),
 
     registro_profissional: z
@@ -92,11 +98,17 @@ export const atualizarUsuarioSchema = z.object({
     telefone: z
         .string()
         .trim()
+        .min(10, 'Informe um telefone válido.')
+        .max(15, 'Informe um telefone válido.')
         .optional(),
 
     cpf: z
         .string()
         .trim()
+        .regex(
+            /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/,
+            'Informe um CPF válido.'
+        )
         .optional(),
 
     registro_profissional: z
@@ -107,6 +119,10 @@ export const atualizarUsuarioSchema = z.object({
     foto: z
         .string()
         .trim()
+        .optional(),
+    
+    status: z
+        .enum(['ativo', 'inativo'])
         .optional(),
 });
 
@@ -132,3 +148,12 @@ export const listarUsuarioSchema = z.object({
 export type ListarUsuarioDTO = z.infer<
     typeof listarUsuarioSchema
 >;
+
+export const idSchema = z.object({
+    id: z.coerce
+        .number()
+        .int()
+        .positive({
+            message: 'O ID deve ser um número inteiro positivo.',
+        }),
+});

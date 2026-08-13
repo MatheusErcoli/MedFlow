@@ -6,6 +6,7 @@ import {
     Model,
 } from 'sequelize';
 
+import Especialidade from '../especialidades/especialidade.model';
 import sequelize from '../../config/database';
 
 class Usuario extends Model<
@@ -28,7 +29,7 @@ class Usuario extends Model<
     declare registro_profissional: string | null;
     declare foto: string | null;
 
-    declare status: CreationOptional<string>;
+    declare status: CreationOptional<'ativo' | 'inativo'>;
 
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
@@ -80,6 +81,7 @@ Usuario.init(
         cpf: {
             type: DataTypes.STRING,
             allowNull: true,
+            unique: true,
         },
 
         registro_profissional: {
@@ -106,5 +108,10 @@ Usuario.init(
         updatedAt: 'updated_at',
     }
 );
+
+Usuario.belongsTo(Especialidade, {
+    foreignKey: 'especialidade_id',
+    as: 'especialidade',
+})
 
 export default Usuario;

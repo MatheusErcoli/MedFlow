@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import usuarioController from './usuario.controller';
 
-import { criarUsuarioSchema, atualizarUsuarioSchema, listarUsuarioSchema } from './usuario.schema';
+import { criarUsuarioSchema, atualizarUsuarioSchema, listarUsuarioSchema, idSchema } from './usuario.schema';
 
 import { validate } from '../../middlewares/validate.middleware';
 
@@ -16,6 +16,7 @@ usuarioRoutes.get(
 
 usuarioRoutes.get(
     '/:id',
+    validate(idSchema, 'params'),
     usuarioController.buscarPorId
 );
 
@@ -27,12 +28,14 @@ usuarioRoutes.post(
 
 usuarioRoutes.put(
     '/:id',
+    validate(idSchema, 'params'),
     validate(atualizarUsuarioSchema),
     usuarioController.atualizar
 )
 
 usuarioRoutes.delete(
     '/:id',
+    validate(idSchema, 'params'),
     usuarioController.deletar
 );
 export default usuarioRoutes;

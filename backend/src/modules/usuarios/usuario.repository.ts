@@ -1,5 +1,6 @@
 import { CriarUsuarioRepositoryDTO } from '../../types/usuario.types';
 import Usuario from './usuario.model';
+import Especialidade from '../especialidades/especialidade.model';
 
 class UsuarioRepository {
     async listar(page: number, limit: number) {
@@ -9,6 +10,13 @@ class UsuarioRepository {
             attributes: {
                 exclude: ['senha'],
             },
+            include: [
+                {
+                    model: Especialidade,
+                    as: 'especialidade',
+                    attributes: ['id', 'nome', 'slug'],
+                }
+            ],
             order: [['nome', 'ASC']],
             limit,
             offset,
@@ -25,6 +33,13 @@ class UsuarioRepository {
             attributes: {
                 exclude: ['senha'],
             },
+            include: [
+                {
+                    model: Especialidade,
+                    as: 'especialidade',
+                    attributes: ['id', 'nome', 'slug'],
+                }
+            ],
         });
     }
 
@@ -35,7 +50,9 @@ class UsuarioRepository {
     }
 
     async criar(data: CriarUsuarioRepositoryDTO) {
-        return Usuario.create(data);
+        const usuario = await Usuario.create(data);
+
+        return this.buscarPorId(usuario.id);
     }
 
     async atualizar(id: number, data: Partial<CriarUsuarioRepositoryDTO>) {

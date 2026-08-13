@@ -10,8 +10,20 @@ const usuarioRoutes = Router();
 
 usuarioRoutes.get(
     '/',
-    validate(listarUsuarioSchema),
+    validate(listarUsuarioSchema, 'query'),
     usuarioController.listar
+);
+
+usuarioRoutes.patch(
+    '/:id/inativar',
+    validate(idSchema, 'params'),
+    usuarioController.inativar
+);
+
+usuarioRoutes.patch(
+    '/:id/ativar',
+    validate(idSchema, 'params'),
+    usuarioController.ativar
 );
 
 usuarioRoutes.get(

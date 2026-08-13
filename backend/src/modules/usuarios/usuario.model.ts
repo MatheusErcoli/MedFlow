@@ -6,7 +6,6 @@ import {
     Model,
 } from 'sequelize';
 
-import Especialidade from '../especialidades/especialidade.model';
 import sequelize from '../../config/database';
 
 class Usuario extends Model<
@@ -108,10 +107,5 @@ Usuario.init(
         updatedAt: 'updated_at',
     }
 );
-
-Usuario.belongsTo(Especialidade, {
-    foreignKey: 'especialidade_id',
-    as: 'especialidade',
-})
 
 export default Usuario;

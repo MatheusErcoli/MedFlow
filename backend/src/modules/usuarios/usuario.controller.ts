@@ -4,16 +4,16 @@ import usuarioService from './usuario.service';
 import { CriarUsuarioDTO, AtualizarUsuarioDTO, } from './usuario.schema';
 
 class UsuarioController {
-    async listar(req: Request, res: Response) {
-        const page = Number(req.query.page) || 1;
-        const limit = Number(req.query.limit) || 10;
+    async listar(_req: Request, res: Response) {
+        const { page, limit, status } = res.locals.dadosValidados;
 
-        const usuarios = await usuarioService.listar({
+        const resultado = await usuarioService.listar({
             page,
             limit,
+            status,
         });
 
-        return res.json(usuarios);
+        return res.json(resultado);
     }
 
     async buscarPorId(req: Request, res: Response) {
@@ -51,6 +51,22 @@ class UsuarioController {
         await usuarioService.deletar(id);
 
         return res.status(204).send();
+    }
+
+    async inativar(req: Request, res: Response) {
+        const id = Number(req.params.id);
+
+        const usuario = await usuarioService.inativar(id);
+
+        return res.json(usuario);
+    }
+
+    async ativar(req: Request, res: Response) {
+        const id = Number(req.params.id);
+
+        const usuario = await usuarioService.ativar(id);
+
+        return res.json(usuario);
     }
 }
 

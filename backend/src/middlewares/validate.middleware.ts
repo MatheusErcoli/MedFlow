@@ -5,10 +5,12 @@ export function validate(
     schema: ZodSchema,
     source: 'body' | 'query' | 'params' = 'body'
 ) {
-    return (req: Request, _res: Response, next: NextFunction) => {
+    return (req: Request, res: Response, next: NextFunction) => {
         const data = req[source];
 
-        schema.parse(data);
+        const dadosValidados = schema.parse(data);
+
+        res.locals.dadosValidados = dadosValidados;
 
         next();
     };

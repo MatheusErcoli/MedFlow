@@ -7,5 +7,5 @@ export interface CriarUsuarioRepositoryDTO {
     cpf?: string;
     registro_profissional?: string;
     foto?: string;
-    status?: string;
+    status?: 'ativo' | 'inativo';
 }

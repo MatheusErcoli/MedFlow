@@ -143,6 +143,10 @@ export const listarUsuarioSchema = z.object({
         .positive()
         .max(100)
         .default(10),
+
+    status: z
+        .enum(['ativo', 'inativo'])
+        .default('ativo'),
 });
 
 export type ListarUsuarioDTO = z.infer<

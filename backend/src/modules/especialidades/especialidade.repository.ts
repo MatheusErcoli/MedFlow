@@ -1,11 +1,12 @@
-import { CriarEspecialidadeRepositoryDTO } from '../../types/especialidade.types';
+import { AtualizarEspecialidadeRepositoryDTO, CriarEspecialidadeRepositoryDTO } from '../../types/especialidade.types';
 import Especialidade from './especialidade.model';
 
 class EspecialidadeRepository {
-    async listar() {
+    async listar(ativo: boolean) {
         return Especialidade.findAll({
-            order: [['nome', 'ASC']]
-        })
+            where: { ativo },
+            order: [['nome', 'ASC']],
+        });
     }
 
     async buscarPorId(id: number) {
@@ -20,6 +21,36 @@ class EspecialidadeRepository {
 
     async criar(data: CriarEspecialidadeRepositoryDTO) {
         return Especialidade.create(data);
+    }
+
+    async atualizar( id: number, data: AtualizarEspecialidadeRepositoryDTO) {
+        const [quantidade] = await Especialidade.update(data, {
+            where: { id },
+        });
+
+        return quantidade > 0;
+    }
+
+    async ativar(id: number) {
+        const [quantidade] = await Especialidade.update(
+            { ativo: true },
+            {
+                where: { id },
+            }
+        );
+
+        return quantidade > 0;
+    }
+
+    async inativar(id: number) {
+        const [quantidade] = await Especialidade.update(
+            { ativo: false },
+            {
+                where: { id },
+            }
+        );
+
+        return quantidade > 0;
     }
 }
 

@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../errors/AppError';
 import { ZodError } from 'zod';
 
-
 export function errorMiddleware(
     err: Error,
     _req: Request,
@@ -10,9 +9,19 @@ export function errorMiddleware(
     _next: NextFunction
 ) {
     if (err instanceof ZodError) {
+        const errors: Record<string, string> = {};
+
+        for (const issue of err.issues) {
+            const field = issue.path.join('.');
+
+            if (!errors[field]) {
+                errors[field] = issue.message;
+            }
+        }
+
         return res.status(400).json({
             message: 'Erro de validação',
-            errors: err.issues,
+            errors,
         });
     }
 

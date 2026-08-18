@@ -1,70 +1,94 @@
 import { Request, Response } from 'express';
 
 import usuarioService from './usuario.service';
-import { CriarUsuarioDTO, AtualizarUsuarioDTO, } from './usuario.schema';
+
+import {
+    CriarUsuarioDTO,
+    AtualizarUsuarioDTO,
+    ListarUsuarioDTO,
+} from './usuario.schema';
+
+import {
+    getValidatedBody,
+    getValidatedQuery,
+    getValidatedParams,
+} from '../../utils/validated-data';
+
+import { IdParams } from '../../types/common.types';
 
 class UsuarioController {
     async listar(_req: Request, res: Response) {
-        const { page, limit, status } = res.locals.dadosValidados;
+        const { page, limit, status } =
+            getValidatedQuery<ListarUsuarioDTO>(res);
 
-        const resultado = await usuarioService.listar({
-            page,
-            limit,
-            status,
-        });
+        const resultado =
+            await usuarioService.listar({
+                page,
+                limit,
+                status,
+            });
 
         return res.json(resultado);
     }
 
-    async buscarPorId(req: Request, res: Response) {
-        const id = Number(req.params.id);
+    async buscarPorId(_req: Request, res: Response) {
+        const { id } =
+            getValidatedParams<IdParams>(res);
 
-        const usuario = await usuarioService.buscarPorId(id);
+        const usuario =
+            await usuarioService.buscarPorId(id);
 
         return res.json(usuario);
     }
 
-    async criar(req: Request, res: Response) {
-        const data: CriarUsuarioDTO = req.body;
+    async criar(_req: Request, res: Response) {
+        const data =
+            getValidatedBody<CriarUsuarioDTO>(res);
 
-        const usuario = await usuarioService.criar(data);
+        const usuario =
+            await usuarioService.criar(data);
 
         return res.status(201).json(usuario);
     }
 
-    async atualizar(req: Request, res: Response) {
-        const id = Number(req.params.id);
+    async atualizar(_req: Request, res: Response) {
+        const { id } =
+            getValidatedParams<IdParams>(res);
 
-        const data: AtualizarUsuarioDTO = req.body;
+        const data =
+            getValidatedBody<AtualizarUsuarioDTO>(res);
 
-        const usuario = await usuarioService.atualizar(
-            id,
-            data
-        );
+        const usuario =
+            await usuarioService.atualizar(id, data);
 
         return res.json(usuario);
     }
 
-    async deletar(req: Request, res: Response) {
-        const id = Number(req.params.id);
+    async deletar(_req: Request, res: Response) {
+        const { id } =
+            getValidatedParams<IdParams>(res);
 
         await usuarioService.deletar(id);
 
         return res.status(204).send();
     }
 
-    async inativar(req: Request, res: Response) {
-        const id = Number(req.params.id);
+    async inativar(_req: Request, res: Response) {
+        const { id } =
+            getValidatedParams<IdParams>(res);
 
-        const usuario = await usuarioService.inativar(id);
+        const usuario =
+            await usuarioService.inativar(id);
 
         return res.json(usuario);
     }
 
-    async ativar(req: Request, res: Response) {
-        const id = Number(req.params.id);
+    async ativar(_req: Request, res: Response) {
+        const { id } =
+            getValidatedParams<IdParams>(res);
 
-        const usuario = await usuarioService.ativar(id);
+        const usuario =
+            await usuarioService.ativar(id);
 
         return res.json(usuario);
     }

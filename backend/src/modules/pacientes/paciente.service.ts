@@ -6,8 +6,6 @@ import { NotFoundError } from '../../errors/NotFoundError';
 import pacienteRepository from './paciente.repository';
 import usuarioRepository from '../usuarios/usuario.repository';
 
-import bcrypt from 'bcrypt';
-
 class PacienteService {
     async listar({ page, limit, status }: ListarPacienteDTO) {
         const { dados, total } =
@@ -96,6 +94,14 @@ class PacienteService {
                 throw new ConflictError(
                     'Já existe um paciente cadastrado com esse email.'
                 );
+            }
+        }
+
+        if (data.usuario_id) {
+            const usuario = await usuarioRepository.buscarPorId(data.usuario_id);
+
+            if (!usuario) {
+                throw new NotFoundError('Usuário não encontrado.');
             }
         }
 

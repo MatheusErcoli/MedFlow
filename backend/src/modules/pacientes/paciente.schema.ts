@@ -37,7 +37,7 @@ export const criarPacienteSchema = z.object({
     .optional(),
 
     data_nascimento: z
-    .date()
+    .string()
     .optional(),
 
     estado_civil: z
@@ -161,7 +161,7 @@ export const atualizarPacienteSchema = z.object({
     .optional(),
 
     data_nascimento: z
-    .date()
+    .string()
     .optional(),
 
     estado_civil: z

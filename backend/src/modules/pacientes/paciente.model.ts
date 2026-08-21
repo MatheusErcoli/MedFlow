@@ -22,9 +22,9 @@ class Paciente extends Model<
 
     declare nome: string;
     declare foto: string | null;
-    declare cpf: string | null;
+    declare cpf: string;
     declare sexo: string | null
-    declare data_nascimento: Date | null;
+    declare data_nascimento: string | null;
     declare estado_civil: string | null;
     declare telefone: string | null;
     declare email: string;

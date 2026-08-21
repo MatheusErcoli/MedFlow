@@ -18,8 +18,7 @@ import { IdParams } from '../../types/common.types';
 
 class UsuarioController {
     async listar(_req: Request, res: Response) {
-        const { page, limit, status } =
-            getValidatedQuery<ListarUsuarioDTO>(res);
+        const { page, limit, status } = getValidatedQuery<ListarUsuarioDTO>(res);
 
         const resultado =
             await usuarioService.listar({
@@ -32,41 +31,33 @@ class UsuarioController {
     }
 
     async buscarPorId(_req: Request, res: Response) {
-        const { id } =
-            getValidatedParams<IdParams>(res);
+        const { id } = getValidatedParams<IdParams>(res);
 
-        const usuario =
-            await usuarioService.buscarPorId(id);
+        const usuario = await usuarioService.buscarPorId(id);
 
         return res.json(usuario);
     }
 
     async criar(_req: Request, res: Response) {
-        const data =
-            getValidatedBody<CriarUsuarioDTO>(res);
+        const data = getValidatedBody<CriarUsuarioDTO>(res);
 
-        const usuario =
-            await usuarioService.criar(data);
+        const usuario = await usuarioService.criar(data);
 
         return res.status(201).json(usuario);
     }
 
     async atualizar(_req: Request, res: Response) {
-        const { id } =
-            getValidatedParams<IdParams>(res);
+        const { id } = getValidatedParams<IdParams>(res);
 
-        const data =
-            getValidatedBody<AtualizarUsuarioDTO>(res);
+        const data = getValidatedBody<AtualizarUsuarioDTO>(res);
 
-        const usuario =
-            await usuarioService.atualizar(id, data);
+        const usuario = await usuarioService.atualizar(id, data);
 
         return res.json(usuario);
     }
 
     async deletar(_req: Request, res: Response) {
-        const { id } =
-            getValidatedParams<IdParams>(res);
+        const { id } = getValidatedParams<IdParams>(res);
 
         await usuarioService.deletar(id);
 
@@ -74,21 +65,17 @@ class UsuarioController {
     }
 
     async inativar(_req: Request, res: Response) {
-        const { id } =
-            getValidatedParams<IdParams>(res);
+        const { id } = getValidatedParams<IdParams>(res);
 
-        const usuario =
-            await usuarioService.inativar(id);
+        const usuario = await usuarioService.inativar(id);
 
         return res.json(usuario);
     }
 
     async ativar(_req: Request, res: Response) {
-        const { id } =
-            getValidatedParams<IdParams>(res);
+        const { id } = getValidatedParams<IdParams>(res);
 
-        const usuario =
-            await usuarioService.ativar(id);
+        const usuario = await usuarioService.ativar(id);
 
         return res.json(usuario);
     }

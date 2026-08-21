@@ -81,4 +81,66 @@ class PacienteService {
             status: 'ativo',
         });
     }
+
+    async atualizar(id: number, data: AtualizarPacienteDTO) {
+        const paciente = await pacienteRepository.buscarPorId(id);
+
+        if(!paciente) {
+            throw new NotFoundError('Paciente não encontrado.');
+        }
+
+        if (data.email) {
+            const pacienteComEmail = await pacienteRepository.buscarPorEmail(data.email);
+
+            if (pacienteComEmail && pacienteComEmail.id !== id) {
+                throw new ConflictError(
+                    'Já existe um paciente cadastrado com esse email.'
+                );
+            }
+        }
+
+        if (data.cpf) {
+            const pacienteComCpf = await pacienteRepository.buscarPorCpf(data.cpf);
+
+            if (pacienteComCpf && pacienteComCpf.id !== id) {
+                throw new ConflictError(
+                    'Já existe um paciente cadastrado com esse CPF.'
+                );
+            }
+        }
+
+        const dadosAtualizacao: AtualizarPacienteDTO = {
+            ...data,
+        };
+        
+        await pacienteRepository.atualizar(id, dadosAtualizacao);
+
+        return pacienteRepository.buscarPorId(id);
+    }
+
+    async ativar(id: number) {
+        const paciente = await pacienteRepository.buscarPorId(id);
+
+        if(!paciente) {
+            throw new NotFoundError('Paciente não encontrado.');
+        }
+
+        await pacienteRepository.ativar(id);
+
+        return pacienteRepository.buscarPorId(id);
+    }
+
+    async inativar(id: number) {
+        const paciente = await pacienteRepository.buscarPorId(id);
+
+        if(!paciente) {
+            throw new NotFoundError('Paciente não encontrado.');
+        }
+
+        await pacienteRepository.inativar(id);
+
+        return pacienteRepository.buscarPorId(id);
+    }
 }
+
+export default new PacienteService();

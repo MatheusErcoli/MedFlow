@@ -29,6 +29,6 @@ export interface ListarAgendaRepositoryDTO {
     tipo?: string;
     inicio?: Date;
     fim?: Date;
-    pagina: number;
-    limite: number;
+    page: number;
+    limit: number;
 }

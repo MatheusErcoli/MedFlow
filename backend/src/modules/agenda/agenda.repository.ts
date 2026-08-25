@@ -21,8 +21,8 @@ class AgendaRepository {
             tipo,
             inicio,
             fim,
-            pagina,
-            limite,
+            page,
+            limit,
         } = filtros;
 
         const where: WhereOptions = {};
@@ -80,12 +80,12 @@ class AgendaRepository {
             });
         }
 
-        const offset = (pagina - 1) * limite;
+        const offset = (page - 1) * limit;
 
         const { rows, count } = await Agenda.findAndCountAll({
             where,
             order: [['inicio', 'ASC']],
-            limit: limite,
+            limit: limit,
             offset,
         });
 
@@ -97,6 +97,44 @@ class AgendaRepository {
 
     async buscarPorId(id: number) {
         return await Agenda.findByPk(id);
+    }
+
+    async buscarConflitoHorario(
+        usuario_id: number,
+        inicio: Date,
+        fim: Date,
+        ignorarId?: number
+    ) {
+        const where: WhereOptions = {
+            usuario_id,
+            status: {
+                [Op.ne]: 'cancelado',
+            },
+            [Op.and]: [
+                {
+                    fim: {
+                        [Op.gt]: inicio,
+                    },
+                },
+                {
+                    inicio: {
+                        [Op.lt]: fim,
+                    },
+                },
+            ],
+        };
+
+        if (ignorarId) {
+            Object.assign(where, {
+                id: {
+                    [Op.ne]: ignorarId,
+                },
+            });
+        }
+
+        return await Agenda.findOne({
+            where,
+        });
     }
 
     async criar(data: CriarAgendaRepositoryDTO) {
@@ -114,11 +152,16 @@ class AgendaRepository {
         return await this.buscarPorId(id);
     }
 
-    async deletar(id: number) {
-        return await Agenda.destroy({
-            where: { id },
-        });
+    async cancelar(id: number) {
+        await Agenda.update(
+            { status: 'cancelado' },
+            { where: { id } },
+        );
+
+        return await this.buscarPorId(id);
     }
+
+
 }
 
 export default new AgendaRepository();

@@ -109,18 +109,54 @@ export const atualizarAgendaSchema = z.object({
 export type AtualizarAgendaDTO = z.infer<typeof atualizarAgendaSchema>;
 
 export const listarAgendaSchema = z.object({
+    usuario_id: z.coerce
+        .number()
+        .int()
+        .positive()
+        .optional(),
+
+    paciente_id: z.coerce
+        .number()
+        .int()
+        .positive()
+        .optional(),
+
+    status: z.enum([
+        'agendado',
+        'confirmado',
+        'cancelado',
+        'realizado',
+    ]).optional(),
+
+    tipo: z.enum([
+        'atendimento',
+        'avaliacao',
+        'retorno',
+        'reuniao',
+        'bloqueio',
+        'outro',
+    ]).optional(),
+
+    inicio: z.coerce
+        .date()
+        .optional(),
+
+    fim: z.coerce
+        .date()
+        .optional(),
+
     page: z.coerce
-    .number()
-    .int()
-    .positive()
-    .default(1),
+        .number()
+        .int()
+        .positive()
+        .default(1),
 
     limit: z.coerce
-    .number()
-    .int()
-    .positive()
-    .max(100)
-    .default(10),
+        .number()
+        .int()
+        .positive()
+        .max(100)
+        .default(10),
 });
 
 export type ListarAgendaDTO = z.infer<typeof listarAgendaSchema>;

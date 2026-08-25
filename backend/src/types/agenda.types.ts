@@ -3,11 +3,11 @@ export interface CriarAgendaRepositoryDTO {
     paciente_id?: number;
     titulo: string;
     tipo: string;
-    inicio: string;
-    fim: string;
+    inicio: Date;
+    fim: Date;
     status: string;
     lembrete_minutos?: number;
-    observacoes?: Text;
+    observacoes?: string;
 }
 
 export interface AtualizarAgendaRepositoryDTO {
@@ -15,9 +15,20 @@ export interface AtualizarAgendaRepositoryDTO {
     paciente_id?: number;
     titulo?: string;
     tipo?: string;
-    inicio?: string;
-    fim?: string;
+    inicio?: Date;
+    fim?: Date;
     status?: string;
     lembrete_minutos?: number;
-    observacoes?: Text;
+    observacoes?: string;
+}
+
+export interface ListarAgendaRepositoryDTO {
+    usuario_id?: number;
+    paciente_id?: number;
+    status?: string;
+    tipo?: string;
+    inicio?: Date;
+    fim?: Date;
+    pagina: number;
+    limite: number;
 }

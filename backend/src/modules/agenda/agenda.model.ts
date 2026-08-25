@@ -15,11 +15,11 @@ class Agenda extends Model<
     InferCreationAttributes<Agenda, {
         omit: 'createdAt' | 'updatedAt';
     }>
->   {
+> {
     declare id: CreationOptional<number>;
 
     declare usuario_id: number;
-    declare paciente_id: number;
+    declare paciente_id: number | null;
 
     declare titulo: string;
     declare tipo: string;
@@ -27,7 +27,7 @@ class Agenda extends Model<
     declare fim: Date;
     declare status: string;
     declare lembrete_minutos: number | null;
-    declare observacoes: Text | null;
+    declare observacoes: string | null;
 
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;

@@ -171,6 +171,10 @@ class AgendaService {
             );
         }
 
+        const agendaAtualizada = await agendaRepository.atualizar(id, data);
+
+        return agendaAtualizada;
+
     }
 
     async cancelar(id: number) {

@@ -1,10 +1,14 @@
 import { z } from 'zod';
 
-const dataHoraSchema = z.coerce.date();
+const dataHoraSchema = z.coerce.date({
+    error: 'A data e hora são obrigatórias.'
+});
 
 export const criarAgendaSchema = z.object({
     usuario_id: z
-        .number()
+        .number({
+            error: 'O ID do usuário é obrigatório.'
+        })
         .int()
         .positive(),
 
@@ -15,7 +19,9 @@ export const criarAgendaSchema = z.object({
         .optional(),
 
     titulo: z
-        .string()
+        .string({
+            error: 'Titulo obrigatório!'
+        })
         .trim()
         .min(1, 'O título é obrigatório.')
         .max(255, 'O título deve ter no máximo 255 caracteres.'),
@@ -27,18 +33,22 @@ export const criarAgendaSchema = z.object({
         'reuniao',
         'bloqueio',
         'outro',
-    ]),
+    ],
+        {
+            message: 'O tipo deve ser: atendimento, avaliacao, retorno, reuniao, bloqueio ou outro.',
+        }
+    ),
 
     inicio: dataHoraSchema,
 
     fim: dataHoraSchema,
 
-    status: z.enum([
-        'agendado',
-        'confirmado',
-        'cancelado',
-        'realizado',
-    ]),
+    status: z.enum(
+        ['agendado', 'confirmado', 'cancelado', 'realizado'],
+        {
+            message: 'O status deve ser: agendado, confirmado, cancelado ou realizado.',
+        }
+    ),
 
     lembrete_minutos: z
         .number()
@@ -163,9 +173,11 @@ export type ListarAgendaDTO = z.infer<typeof listarAgendaSchema>;
 
 export const idSchema = z.object({
     id: z.coerce
-    .number()
-    .int()
-    .positive({
-        message: 'O ID deve ser um número inteiro positivo.',
-    })
+        .number({
+            error: 'O ID é obrigatório.'
+        })
+        .int()
+        .positive({
+            message: 'O ID deve ser um número inteiro positivo.',
+        })
 });

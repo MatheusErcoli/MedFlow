@@ -193,3 +193,5 @@ class AgendaService {
         return await agendaRepository.cancelar(id);
     }
 }
+
+export default new AgendaService();

@@ -7,8 +7,8 @@ export interface CriarSessaoRepositoryDTO {
 export interface AtualizarSessaoRepositoryDTO {
     inicio?: Date | null;
     fim?: Date | null;
+    duracao?: number | null;
     valor?: number | null;
     pago?: boolean;
-    realizada?: boolean;
     observacoes?: string | null;
 }

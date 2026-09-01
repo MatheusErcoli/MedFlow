@@ -9,38 +9,38 @@ import {
     atualizarSessaoSchema,
 } from './sessao.schema';
 
-const router = Router();
+const sessoesRoutes = Router();
 
-router.get(
+sessoesRoutes.get(
     '/',
     sessaoController.listar
 );
 
-router.get(
+sessoesRoutes.get(
     '/:id',
     sessaoController.buscarPorId
 );
 
-router.post(
+sessoesRoutes.post(
     '/',
     validate(criarSessaoSchema),
     sessaoController.criar
 );
 
-router.patch(
+sessoesRoutes.patch(
     '/:id',
     validate(atualizarSessaoSchema),
     sessaoController.atualizar
 );
 
-router.patch(
+sessoesRoutes.patch(
     '/:id/finalizar',
     sessaoController.finalizar
 );
 
-router.delete(
+sessoesRoutes.delete(
     '/:id',
     sessaoController.deletar
 );
 
-export default router;
+export default sessoesRoutes;

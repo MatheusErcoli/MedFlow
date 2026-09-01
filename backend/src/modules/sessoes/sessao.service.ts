@@ -71,27 +71,33 @@ class SessaoService {
             ...data,
         };
 
-        if (dadosFinais.inicio && dadosFinais.fim) {
+        const inicio = dadosFinais.inicio
+            ? new Date(dadosFinais.inicio)
+            : null;
 
-            if (dadosFinais.fim <= dadosFinais.inicio) {
+        const fim = dadosFinais.fim
+            ? new Date(dadosFinais.fim)
+            : null;
+
+        let duracao: number | null = null;
+
+        if (inicio && fim) {
+
+            if (fim <= inicio) {
                 throw new ConflictError(
                     'O horário de término deve ser posterior ao horário de início.'
                 );
             }
 
-            const duracao = Math.floor(
-                (dadosFinais.fim.getTime() - dadosFinais.inicio.getTime()) / 60000
+            duracao = Math.floor(
+                (fim.getTime() - inicio.getTime()) / 60000
             );
-
-            dadosFinais.duracao = duracao;
-        } else {
-            dadosFinais.duracao = null;
         }
 
         return await sessaoRepository.atualizar(id, {
-            inicio: dadosFinais.inicio,
-            fim: dadosFinais.fim,
-            duracao: dadosFinais.duracao,
+            inicio,
+            fim,
+            duracao,
             valor: dadosFinais.valor,
             pago: dadosFinais.pago,
             observacoes: dadosFinais.observacoes,

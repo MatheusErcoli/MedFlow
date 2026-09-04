@@ -1,17 +1,21 @@
 import { z } from 'zod';
 
-export const criarSessaoSchema = z.object({
-    agenda_id: z.number({
-        error: (issue) => {
-            if (issue.input === undefined) {
-                return 'O campo agenda_id é obrigatório.';
-            }
 
-            return 'O campo agenda_id deve ser um número.';
-        },
-    })
-    .int('O campo agenda_id deve ser um número inteiro.')
-    .positive('O campo agenda_id deve ser maior que zero.'),
+export const criarSessaoSchema = z.object({
+
+    agenda_id: z
+        .number({
+            error: (issue) => {
+                if (issue.input === undefined) {
+                    return 'O campo agenda_id é obrigatório.';
+                }
+
+                return 'O campo agenda_id deve ser um número.';
+            },
+        })
+        .int('O campo agenda_id deve ser um número inteiro.')
+        .positive('O campo agenda_id deve ser maior que zero.'),
+
     valor: z
         .number({
             error: 'O campo valor deve ser um número.',
@@ -23,10 +27,13 @@ export const criarSessaoSchema = z.object({
         .string({
             error: 'O campo observacoes deve ser uma string.',
         })
+        .trim()
         .optional(),
 });
 
+
 export const atualizarSessaoSchema = z.object({
+
     inicio: z
         .coerce
         .date({
@@ -57,16 +64,23 @@ export const atualizarSessaoSchema = z.object({
         })
         .optional(),
 
-    realizada: z
-        .boolean({
-            error: 'O campo realizada deve ser verdadeiro ou falso.',
-        })
-        .optional(),
-
     observacoes: z
         .string({
             error: 'O campo observacoes deve ser uma string.',
         })
+        .trim()
         .nullable()
         .optional(),
+});
+
+
+export const idSchema = z.object({
+
+    id: z
+        .coerce
+        .number({
+            error: 'O ID é obrigatório.',
+        })
+        .int('O ID deve ser um número inteiro.')
+        .positive('O ID deve ser maior que zero.'),
 });

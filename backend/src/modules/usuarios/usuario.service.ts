@@ -1,4 +1,12 @@
-import { CriarUsuarioDTO, AtualizarUsuarioDTO, ListarUsuarioDTO } from './usuario.schema';
+import {
+    CriarUsuarioDTO,
+    AtualizarUsuarioDTO,
+    ListarUsuarioDTO,
+} from './usuario.schema';
+
+import {
+    AtualizarUsuarioRepositoryDTO,
+} from '../../types/usuario.types';
 
 import { ConflictError } from '../../errors/ConflictError';
 import { NotFoundError } from '../../errors/NotFoundError';
@@ -11,7 +19,11 @@ import bcrypt from 'bcrypt';
 class UsuarioService {
     async listar({ page, limit, status }: ListarUsuarioDTO) {
         const { dados, total } =
-            await usuarioRepository.listar(page, limit, status);
+            await usuarioRepository.listar(
+                page,
+                limit,
+                status
+            );
 
         const totalPaginas = Math.ceil(total / limit);
 
@@ -27,10 +39,13 @@ class UsuarioService {
     }
 
     async buscarPorId(id: number) {
-        const usuario = await usuarioRepository.buscarPorId(id);
+        const usuario =
+            await usuarioRepository.buscarPorId(id);
 
         if (!usuario) {
-            throw new NotFoundError('Usuário não encontrado.');
+            throw new NotFoundError(
+                'Usuário não encontrado.'
+            );
         }
 
         return usuario;
@@ -49,7 +64,9 @@ class UsuarioService {
         }
 
         const usuarioExistente =
-            await usuarioRepository.buscarPorEmail(data.email);
+            await usuarioRepository.buscarPorEmail(
+                data.email
+            );
 
         if (usuarioExistente) {
             throw new ConflictError(
@@ -58,7 +75,10 @@ class UsuarioService {
         }
 
         if (data.cpf) {
-            const usuarioComCpf = await usuarioRepository.buscarPorCpf(data.cpf);
+            const usuarioComCpf =
+                await usuarioRepository.buscarPorCpf(
+                    data.cpf
+                );
 
             if (usuarioComCpf) {
                 throw new ConflictError(
@@ -67,7 +87,8 @@ class UsuarioService {
             }
         }
 
-        const senhaHash = await bcrypt.hash(data.senha, 10);
+        const senhaHash =
+            await bcrypt.hash(data.senha, 10);
 
         return usuarioRepository.criar({
             especialidade_id: data.especialidade_id,
@@ -76,24 +97,35 @@ class UsuarioService {
             senha: senhaHash,
             telefone: data.telefone,
             cpf: data.cpf,
-            registro_profissional: data.registro_profissional,
+            registro_profissional:
+                data.registro_profissional,
             foto: data.foto,
-            status: 'ativo',
         });
     }
 
-    async atualizar(id: number, data: AtualizarUsuarioDTO) {
-        const usuario = await usuarioRepository.buscarPorId(id);
+    async atualizar(
+        id: number,
+        data: AtualizarUsuarioDTO
+    ) {
+        const usuario =
+            await usuarioRepository.buscarPorId(id);
 
         if (!usuario) {
-            throw new NotFoundError('Usuário não encontrado.');
+            throw new NotFoundError(
+                'Usuário não encontrado.'
+            );
         }
 
         if (data.email) {
             const usuarioComEmail =
-                await usuarioRepository.buscarPorEmail(data.email);
+                await usuarioRepository.buscarPorEmail(
+                    data.email
+                );
 
-            if (usuarioComEmail && usuarioComEmail.id !== id) {
+            if (
+                usuarioComEmail &&
+                usuarioComEmail.id !== id
+            ) {
                 throw new ConflictError(
                     'Já existe um usuário cadastrado com esse email.'
                 );
@@ -102,9 +134,14 @@ class UsuarioService {
 
         if (data.cpf) {
             const usuarioComCpf =
-                await usuarioRepository.buscarPorCpf(data.cpf);
+                await usuarioRepository.buscarPorCpf(
+                    data.cpf
+                );
 
-            if (usuarioComCpf && usuarioComCpf.id !== id) {
+            if (
+                usuarioComCpf &&
+                usuarioComCpf.id !== id
+            ) {
                 throw new ConflictError(
                     'Já existe um usuário cadastrado com esse CPF.'
                 );
@@ -124,15 +161,21 @@ class UsuarioService {
             }
         }
 
-        const dadosAtualizacao: AtualizarUsuarioDTO = {
-            ...data,
+        const dadosAtualizacao: AtualizarUsuarioRepositoryDTO = {
+            especialidade_id: data.especialidade_id,
+            nome: data.nome,
+            email: data.email,
+            telefone: data.telefone,
+            cpf: data.cpf,
+            registro_profissional:
+                data.registro_profissional,
+            foto: data.foto,
+            status: data.status,
         };
 
         if (data.senha) {
-            dadosAtualizacao.senha = await bcrypt.hash(
-                data.senha,
-                10
-            );
+            dadosAtualizacao.senha =
+                await bcrypt.hash(data.senha, 10);
         }
 
         await usuarioRepository.atualizar(
@@ -143,21 +186,14 @@ class UsuarioService {
         return usuarioRepository.buscarPorId(id);
     }
 
-    async deletar(id: number) {
-        const usuario = await usuarioRepository.buscarPorId(id);
-
-        if (!usuario) {
-            throw new NotFoundError('Usuário não encontrado.');
-        }
-
-        await usuarioRepository.deletar(id);
-    }
-
     async inativar(id: number) {
-        const usuario = await usuarioRepository.buscarPorId(id);
+        const usuario =
+            await usuarioRepository.buscarPorId(id);
 
         if (!usuario) {
-            throw new NotFoundError('Usuário não encontrado.');
+            throw new NotFoundError(
+                'Usuário não encontrado.'
+            );
         }
 
         await usuarioRepository.inativar(id);
@@ -166,10 +202,13 @@ class UsuarioService {
     }
 
     async ativar(id: number) {
-        const usuario = await usuarioRepository.buscarPorId(id);
+        const usuario =
+            await usuarioRepository.buscarPorId(id);
 
         if (!usuario) {
-            throw new NotFoundError('Usuário não encontrado.');
+            throw new NotFoundError(
+                'Usuário não encontrado.'
+            );
         }
 
         await usuarioRepository.ativar(id);

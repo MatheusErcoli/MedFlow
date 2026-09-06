@@ -50,10 +50,4 @@ usuarioRoutes.patch(
     usuarioController.inativar
 );
 
-usuarioRoutes.delete(
-    '/:id',
-    validate(idSchema, 'params'),
-    usuarioController.deletar
-);
-
 export default usuarioRoutes;

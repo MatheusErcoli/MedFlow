@@ -24,7 +24,7 @@ class Paciente extends Model<
     declare foto: string | null;
     declare cpf: string;
     declare sexo: string | null
-    declare data_nascimento: string | null;
+    declare data_nascimento: Date | null;
     declare estado_civil: string | null;
     declare telefone: string | null;
     declare email: string;
@@ -40,7 +40,7 @@ class Paciente extends Model<
     declare profissao: string | null
     declare contato_emergencia: string | null;
     declare telefone_emergencia: string | null
-    declare observacoes: Text | null;
+    declare observacoes: string | null;
     declare status: CreationOptional<'ativo' | 'inativo'>;
 
     declare createdAt: CreationOptional<Date>;

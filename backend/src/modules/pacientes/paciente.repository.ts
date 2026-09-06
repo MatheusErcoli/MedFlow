@@ -1,4 +1,4 @@
-import { CriarPacienteRepositoryDTO } from '../../types/paciente.types';
+import { AtualizarPacienteRepositoryDTO, CriarPacienteRepositoryDTO } from '../../types/paciente.types';
 import Paciente from './paciente.model';
 import Usuario from '../usuarios/usuario.model';
 
@@ -62,7 +62,7 @@ class PacienteRepository {
         return this.buscarPorId(paciente.id);
     }
 
-    async atualizar(id: number, data: Partial<CriarPacienteRepositoryDTO>) {
+    async atualizar(id: number, data: AtualizarPacienteRepositoryDTO) {
         const [quantidade] = await Paciente.update(data, {
             where: { id },
         });

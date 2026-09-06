@@ -4,7 +4,7 @@ export interface CriarPacienteRepositoryDTO {
     foto?: string;
     cpf: string;
     sexo?: string;
-    data_nascimento?: string;
+    data_nascimento?: Date;
     estado_civil?: string;
     telefone?: string;
     email: string;
@@ -18,7 +18,7 @@ export interface CriarPacienteRepositoryDTO {
     profissao?: string;
     contato_emergencia?: string;
     telefone_emergencia?: string;
-    observacoes?: Text;
+    observacoes?: string;
     status?: 'ativo' | 'inativo';
 }
 
@@ -28,7 +28,7 @@ export interface AtualizarPacienteRepositoryDTO {
     foto?: string;
     cpf?: string;
     sexo?: string;
-    data_nascimento?: string;
+    data_nascimento?: Date;
     estado_civil?: string;
     telefone?: string;
     email?: string;
@@ -42,6 +42,6 @@ export interface AtualizarPacienteRepositoryDTO {
     profissao?: string;
     contato_emergencia?: string;
     telefone_emergencia?: string;
-    observacoes?: Text;
+    observacoes?: string;
     status?: 'ativo' | 'inativo';
 }

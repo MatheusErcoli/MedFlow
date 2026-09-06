@@ -1,11 +1,13 @@
 import { ConflictError } from '../../errors/ConflictError';
 import { NotFoundError } from '../../errors/NotFoundError';
 
-import { CriarSessaoRepositoryDTO, AtualizarSessaoRepositoryDTO } from '../../types/sessoes.types';
+import {
+    CriarSessaoRepositoryDTO,
+    AtualizarSessaoRepositoryDTO,
+} from '../../types/sessoes.types';
 
 import sessaoRepository from './sessao.repository';
 import agendaRepository from '../agenda/agenda.repository';
-
 
 class SessaoService {
 
@@ -24,7 +26,6 @@ class SessaoService {
     }
 
     async criar(data: CriarSessaoRepositoryDTO) {
-
         const agenda = await agendaRepository.buscarPorId(data.agenda_id);
 
         if (!agenda) {
@@ -58,8 +59,10 @@ class SessaoService {
         });
     }
 
-    async atualizar(id: number, data: AtualizarSessaoRepositoryDTO) {
-
+    async atualizar(
+        id: number,
+        data: AtualizarSessaoRepositoryDTO
+    ) {
         const sessao = await sessaoRepository.buscarPorId(id);
 
         if (!sessao) {
@@ -82,7 +85,6 @@ class SessaoService {
         let duracao: number | null = null;
 
         if (inicio && fim) {
-
             if (fim <= inicio) {
                 throw new ConflictError(
                     'O horário de término deve ser posterior ao horário de início.'
@@ -105,7 +107,6 @@ class SessaoService {
     }
 
     async deletar(id: number) {
-
         const sessao = await sessaoRepository.buscarPorId(id);
 
         if (!sessao) {

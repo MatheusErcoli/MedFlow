@@ -56,14 +56,6 @@ class UsuarioController {
         return res.json(usuario);
     }
 
-    async deletar(_req: Request, res: Response) {
-        const { id } = getValidatedParams<IdParams>(res);
-
-        await usuarioService.deletar(id);
-
-        return res.status(204).send();
-    }
-
     async inativar(_req: Request, res: Response) {
         const { id } = getValidatedParams<IdParams>(res);
 

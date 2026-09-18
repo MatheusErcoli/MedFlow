@@ -10,6 +10,7 @@ import {
 } from './paciente.schema';
 
 import { validate } from '../../middlewares/validate.middleware';
+import { anexarCaminhoFoto, uploadFoto } from '../../middlewares/upload.middleware';
 
 const pacienteRoutes = Router();
 
@@ -27,6 +28,8 @@ pacienteRoutes.get(
 
 pacienteRoutes.post(
     '/',
+    uploadFoto.single('foto'),
+    anexarCaminhoFoto,
     validate(criarPacienteSchema, 'body'),
     pacienteController.criar
 );
@@ -34,6 +37,8 @@ pacienteRoutes.post(
 pacienteRoutes.put(
     '/:id',
     validate(idSchema, 'params'),
+    uploadFoto.single('foto'),
+    anexarCaminhoFoto,
     validate(atualizarPacienteSchema, 'body'),
     pacienteController.atualizar
 );

@@ -10,6 +10,7 @@ import {
 } from './usuario.schema';
 
 import { validate } from '../../middlewares/validate.middleware';
+import { anexarCaminhoFoto, uploadFoto } from '../../middlewares/upload.middleware';
 
 const usuarioRoutes = Router();
 
@@ -27,6 +28,8 @@ usuarioRoutes.get(
 
 usuarioRoutes.post(
     '/',
+    uploadFoto.single('foto'),
+    anexarCaminhoFoto,
     validate(criarUsuarioSchema, 'body'),
     usuarioController.criar
 );
@@ -34,6 +37,8 @@ usuarioRoutes.post(
 usuarioRoutes.put(
     '/:id',
     validate(idSchema, 'params'),
+    uploadFoto.single('foto'),
+    anexarCaminhoFoto,
     validate(atualizarUsuarioSchema, 'body'),
     usuarioController.atualizar
 );

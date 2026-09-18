@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const criarPacienteSchema = z.object({
 
-    usuario_id: z
+    usuario_id: z.coerce
         .number({
             error: 'O ID do usuário é obrigatório.',
         })
@@ -136,7 +136,7 @@ export type CriarPacienteDTO = z.infer<
 
 export const atualizarPacienteSchema = z.object({
 
-    usuario_id: z
+    usuario_id: z.coerce
         .number()
         .int()
         .positive({

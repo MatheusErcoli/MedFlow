@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const criarUsuarioSchema = z.object({
 
-    especialidade_id: z
+    especialidade_id: z.coerce
         .number({
             error: (issue) => {
                 if (issue.input === undefined) {
@@ -78,7 +78,7 @@ export type CriarUsuarioDTO = z.infer<
 
 export const atualizarUsuarioSchema = z.object({
 
-    especialidade_id: z
+    especialidade_id: z.coerce
         .number()
         .int('O campo especialidade_id deve ser um número inteiro.')
         .positive('O campo especialidade_id deve ser maior que zero.')

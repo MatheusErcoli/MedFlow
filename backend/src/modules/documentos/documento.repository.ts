@@ -13,7 +13,7 @@ class DocumentoRepository {
         const offset = (page - 1) * limit;
 
         const { rows, count } = await Documento.findAndCountAll({
-            order: [['createdAt', 'DESC']],
+            order: [['created_at', 'DESC']],
             limit,
             offset,
         });

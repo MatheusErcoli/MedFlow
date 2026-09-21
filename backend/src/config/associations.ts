@@ -4,6 +4,7 @@ import Paciente from '../modules/pacientes/paciente.model';
 import Agenda from '../modules/agenda/agenda.model';
 import Sessao from '../modules/sessoes/sessao.model';
 import Prontuario from '../modules/prontuarios/prontuario.model';
+import Documento from '../modules/documentos/documento.model';
 
 Usuario.belongsTo(Especialidade, {
     foreignKey: 'especialidade_id',
@@ -43,4 +44,34 @@ Sessao.hasOne(Prontuario, {
 Prontuario.belongsTo(Sessao, {
     foreignKey: 'sessao_id',
     as: 'sessao',
+});
+
+Documento.belongsTo(Usuario, {
+    foreignKey: 'usuario_id',
+    as: 'usuario',
+});
+
+Usuario.hasMany(Documento, {
+    foreignKey: 'usuario_id',
+    as: 'documentos',
+});
+
+Documento.belongsTo(Paciente, {
+    foreignKey: 'paciente_id',
+    as: 'paciente',
+});
+
+Paciente.hasMany(Documento, {
+    foreignKey: 'paciente_id',
+    as: 'documentos',
+});
+
+Documento.belongsTo(Sessao, {
+    foreignKey: 'sessao_id',
+    as: 'sessao',
+});
+
+Sessao.hasMany(Documento, {
+    foreignKey: 'sessao_id',
+    as: 'documentos',
 });

@@ -149,6 +149,31 @@ export type AtualizarDocumentoDTO = z.infer<
     typeof atualizarDocumentoSchema
 >;
 
+export const listarDocumentoSchema = z.object({
+
+    page: z.coerce
+        .number({
+            error: 'A página deve ser um número.',
+        })
+        .int('A página deve ser um número inteiro.')
+        .positive('A página deve ser maior que zero.')
+        .default(1),
+
+    limit: z.coerce
+        .number({
+            error: 'O limite deve ser um número.',
+        })
+        .int('O limite deve ser um número inteiro.')
+        .positive('O limite deve ser maior que zero.')
+        .max(100, 'O limite deve ser no máximo 100.')
+        .default(10),
+
+});
+
+export type ListarDocumentoDTO = z.infer<
+    typeof listarDocumentoSchema
+>;
+
 
 export const idSchema = z.object({
     id: z.coerce

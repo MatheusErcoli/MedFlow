@@ -10,6 +10,7 @@ import Usuario from '../usuarios/usuario.model';
 import Paciente from '../pacientes/paciente.model';
 import Sessao from '../sessoes/sessao.model';
 import Agenda from '../agenda/agenda.model';
+import ModeloDocumento from '../modelos-documentos/modelo-documento.model';
 
 import documentoRepository from './documento.repository';
 
@@ -32,31 +33,46 @@ class DocumentoService {
     async criar(dados: CriarDocumentoRepositoryDTO) {
         const usuario = await Usuario.findByPk(dados.usuario_id);
 
-        if(!usuario) {
+        if (!usuario) {
             throw new NotFoundError('Usuário não encontrado');
         }
 
         const paciente = await Paciente.findByPk(dados.paciente_id);
 
-        if(!paciente) {
+        if (!paciente) {
             throw new NotFoundError('Paciente não encontrado');
         }
 
         if (dados.sessao_id !== undefined && dados.sessao_id !== null) {
             const sessao = await Sessao.findByPk(dados.sessao_id);
 
-            if(!sessao) {
+            if (!sessao) {
                 throw new NotFoundError('Sessão não encontrada');
             }
 
             const agenda = await Agenda.findByPk(sessao.agenda_id);
 
-            if(!agenda) {
+            if (!agenda) {
                 throw new NotFoundError('Agenda não encontrada');
             }
 
             if (agenda.paciente_id !== dados.paciente_id) {
-                throw new ConflictError('A sessão não pertence ao paciente informado');
+                throw new ConflictError(
+                    'A sessão não pertence ao paciente informado',
+                );
+            }
+        }
+
+        if (
+            dados.modelo_documento_id !== undefined &&
+            dados.modelo_documento_id !== null
+        ) {
+            const modelo = await ModeloDocumento.findByPk(
+                dados.modelo_documento_id,
+            );
+
+            if (!modelo) {
+                throw new NotFoundError('Modelo de documento não encontrado');
             }
         }
 
@@ -76,6 +92,11 @@ class DocumentoService {
             ? dados.sessao_id
             : documento.sessao_id;
 
+        const modeloDocumentoId =
+        dados.modelo_documento_id !== undefined
+            ? dados.modelo_documento_id
+            : documento.modelo_documento_id;
+
         const usuario = await Usuario.findByPk(usuarioId);
 
         if(!usuario) {
@@ -86,6 +107,16 @@ class DocumentoService {
 
         if(!paciente) {
             throw new NotFoundError('Paciente não encontrado');
+        }
+
+        if (modeloDocumentoId !== undefined && modeloDocumentoId !== null) {
+            const modelo = await ModeloDocumento.findByPk(
+                modeloDocumentoId,
+            );
+
+            if (!modelo) {
+                throw new NotFoundError('Modelo de documento não encontrado');
+            }
         }
 
         if (sessaoId !== undefined && sessaoId !== null) {

@@ -8,6 +8,7 @@ import sessoesRoutes from '../modules/sessoes/sessao.routes';
 import prontuarioRoutes from '../modules/prontuarios/prontuario.routes';
 import documentoRoutes from '../modules/documentos/documento.routes';
 import modeloDocumentoRoutes from '../modules/modelos-documentos/modelo-documento.routes';
+import anexosRoutes from '../modules/anexos/anexo.routes';
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.use('/sessoes', sessoesRoutes);
 router.use('/prontuarios', prontuarioRoutes);
 router.use('/documentos', documentoRoutes);
 router.use('/modelos-documentos', modeloDocumentoRoutes);
+router.use('/anexos', anexosRoutes);
 
 export default router;

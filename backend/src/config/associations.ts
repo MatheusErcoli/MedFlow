@@ -6,6 +6,7 @@ import Sessao from '../modules/sessoes/sessao.model';
 import Prontuario from '../modules/prontuarios/prontuario.model';
 import Documento from '../modules/documentos/documento.model';
 import ModeloDocumento from '../modules/modelos-documentos/modelo-documento.model';
+import Anexo from '../modules/anexos/anexo.model';
 
 Usuario.belongsTo(Especialidade, {
     foreignKey: 'especialidade_id',
@@ -85,4 +86,34 @@ ModeloDocumento.belongsTo(Usuario, {
 Usuario.hasMany(ModeloDocumento, {
     foreignKey: 'usuario_id',
     as: 'modelosDocumentos',
+});
+
+Anexo.belongsTo(Usuario, {
+    foreignKey: 'usuario_id',
+    as: 'usuario',
+});
+
+Usuario.hasMany(Anexo, {
+    foreignKey: 'usuario_id',
+    as: 'anexos',
+});
+
+Anexo.belongsTo(Paciente, {
+    foreignKey: 'paciente_id',
+    as: 'paciente',
+});
+
+Paciente.hasMany(Anexo, {
+    foreignKey: 'paciente_id',
+    as: 'anexos',
+});
+
+Anexo.belongsTo(Sessao, {
+    foreignKey: 'sessao_id',
+    as: 'sessao',
+});
+
+Sessao.hasMany(Anexo, {
+    foreignKey: 'sessao_id',
+    as: 'anexos',
 });
